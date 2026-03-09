@@ -1,0 +1,29 @@
+require("dotenv").config();
+
+const app = require("./src/app");
+const sequelize = require("./src/config/mysql");
+
+const PORT = process.env.PORT ;
+
+const startServer = async () => {
+  try {
+  
+    await sequelize.authenticate();
+    console.log("✅ MySQL Connected Successfully");
+
+    
+    await sequelize.sync();
+    console.log("✅ Tables Synced");
+
+    console.log("ADMIN_URL:", process.env.ADMIN_URL);
+
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
+    });
+
+  } catch (error) {
+    console.error("❌ Server failed to start:", error);
+  }
+};
+
+startServer();
