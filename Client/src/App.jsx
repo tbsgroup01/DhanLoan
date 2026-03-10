@@ -8,7 +8,6 @@ import PaymentPage from "./pages/PaymentPage";
 import StatusPage from "./pages/StatusPage";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import CreatePassword from "./pages/CreatePassword";
 import LoginPassword from "./pages/LoginPassword";
 import Dashboard from "./pages/Dashboard";
 
@@ -16,6 +15,7 @@ import Navbar from "./components/Navbar";
 import { Toaster } from "react-hot-toast";
 import { getSiteSettings } from "./services/siteService";
 import { loadTrackingTags } from "./utils/loadTags";
+import AuthPage from "./pages/AuthPage";
 
 function App() {
   const [settings, setSettings] = useState(null);
@@ -57,10 +57,9 @@ function App() {
         <Route path="/status" element={<StatusPage />} />
         <Route path="/check-status" element={<CheckStatus />} />
         <Route path="/payment" element={<PaymentPage />} />
-
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/create-password" element={<CreatePassword />} />
+        <Route path="/auth" element={<AuthPage />} />
+        {/* <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} /> */}
         <Route path="/login-password" element={<LoginPassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>

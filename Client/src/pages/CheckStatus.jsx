@@ -129,7 +129,7 @@ export default function CheckStatus() {
                         Your funds are ready for disbursement.
                       </p>
                       <button
-                        onClick={() => navigate("/login")}
+                        onClick={() => navigate("/auth")}
                         className="mt-4 w-full bg-green-600 text-white py-2 rounded-lg text-sm font-bold hover:bg-green-700 transition"
                       >
                         Get Funds

@@ -47,12 +47,15 @@ export default function Dashboard() {
         <button
           onClick={() => {
             localStorage.clear();
-            window.location.href = "/login";
+            window.location.href = "/auth";
           }}
           className="bg-red-500 text-white px-5 py-2 rounded-lg"
         >
           Logout
         </button>
+
+        
+
       </div>
     </div>
   );
