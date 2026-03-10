@@ -1,17 +1,33 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { getSiteSettings } from "../services/siteService";
 
-const SiteContext = createContext<any>(null);
+interface SiteSettings {
+  site_title?: string;
+  logo?: string;
+}
 
-export const SiteProvider = ({ children }: any) => {
+const SiteContext = createContext<SiteSettings | null>(null);
 
-  const [settings, setSettings] = useState(null);
+interface Props {
+  children: ReactNode;
+}
+
+export const SiteProvider = ({ children }: Props) => {
+
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
 
   useEffect(() => {
 
-    getSiteSettings().then((data) => {
-      setSettings(data);
-    });
+    const loadSettings = async () => {
+      try {
+        const data = await getSiteSettings();
+        setSettings(data);
+      } catch (error) {
+        console.error("Failed to load site settings:", error);
+      }
+    };
+
+    loadSettings();
 
   }, []);
 
@@ -22,4 +38,6 @@ export const SiteProvider = ({ children }: any) => {
   );
 };
 
-export const useSiteSettings = () => useContext(SiteContext);
+export const useSiteSettings = () => {
+  return useContext(SiteContext);
+};

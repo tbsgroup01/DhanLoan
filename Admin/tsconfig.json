@@ -6,6 +6,10 @@
   ],
   "compilerOptions": {
     "baseUrl": ".",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
     "paths": {
       "@/*": ["./src/*"]
     }

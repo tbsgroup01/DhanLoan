@@ -111,7 +111,13 @@ const Login = () => {
               <Controller
                 name="email"
                 control={form.control}
-                render={({ field, fieldState }) => (
+                render={({
+                  field,
+                  fieldState,
+                }: {
+                  field: any;
+                  fieldState: any;
+                }) => (
                   <Field
                     data-invalid={fieldState.invalid}
                     className={cn("gap-1")}
@@ -141,7 +147,13 @@ const Login = () => {
               <Controller
                 name="password"
                 control={form.control}
-                render={({ field, fieldState }) => (
+                render={({
+                  field,
+                  fieldState,
+                }: {
+                  field: any;
+                  fieldState: any;
+                }) => (
                   <Field
                     data-invalid={fieldState.invalid}
                     className={cn("gap-1")}
@@ -197,7 +209,6 @@ const Login = () => {
               {isLoading && <Loader2 className="animate-spin mr-2 h-4 w-4" />}
               {isLoading ? "Signing in..." : "Sign In"}
             </Button>
-
           </form>
         </div>
       </div>

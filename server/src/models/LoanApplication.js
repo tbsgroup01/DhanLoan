@@ -31,6 +31,11 @@ const LoanApplication = sequelize.define("LoanApplication", {
   ifsc: DataTypes.STRING,
   bankName: DataTypes.STRING,
 
+  password: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+
   step_completed: {
     type: DataTypes.INTEGER,
     defaultValue: 1,
@@ -40,6 +45,7 @@ const LoanApplication = sequelize.define("LoanApplication", {
     type: DataTypes.STRING,
     defaultValue: "pending",
   },
+
   rejection_reason: {
     type: DataTypes.TEXT,
     allowNull: true,

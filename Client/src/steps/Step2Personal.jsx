@@ -325,6 +325,21 @@ export default function Step2Personal({ next, prev, setFormData }) {
           Back
         </button>
 
+        {/* without otp verify Continue should be disabled */}
+     
+
+        {/* <button
+          type="submit"
+          disabled={!mobileVerified || !emailVerified}
+          className={`px-6 py-2 rounded-md text-white ${
+            mobileVerified && emailVerified
+              ? "bg-blue-600 hover:bg-blue-700"
+              : "bg-gray-400 cursor-not-allowed"
+          }`}
+        >
+          Continue
+        </button> */}
+
         <button
           type="submit"
           className="px-6 py-2 bg-blue-600 text-white rounded-md"

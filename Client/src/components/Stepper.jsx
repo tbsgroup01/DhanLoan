@@ -1,12 +1,11 @@
-
-import { FaUser, FaMoneyBill, FaUniversity, FaCheck } from "react-icons/fa";
+import React from "react";
+import { FaUser, FaIdCard, FaMoneyBillWave, FaUniversity, FaCheck } from "react-icons/fa";
 
 const Stepper = ({ step }) => {
-
   const steps = [
-    { id: 1, icon: <FaUser />, label: "Identity" },
+    { id: 1, icon: <FaIdCard />, label: "Identity" },
     { id: 2, icon: <FaUser />, label: "Personal" },
-    { id: 3, icon: <FaMoneyBill />, label: "Loan" },
+    { id: 3, icon: <FaMoneyBillWave />, label: "Loan" },
     { id: 4, icon: <FaUniversity />, label: "Bank" },
     { id: 5, icon: <FaCheck />, label: "Submit" }
   ];
@@ -14,84 +13,70 @@ const Stepper = ({ step }) => {
   const progressWidth = ((step - 1) / (steps.length - 1)) * 100;
 
   return (
+    <div className="w-full max-w-5xl mx-auto px-4 py-16">
+      <div className="relative flex items-center justify-between">
+        
+        {/* BACKGROUND TRACK (The faint path ahead) */}
+        <div className="absolute top-[24px] left-0 w-full h-[2px] bg-slate-100 -translate-y-1/2 rounded-full" />
 
-    <div className="relative mb-12">
+        {/* PROGRESS LINE (The blue path behind) */}
+        <div
+          className="absolute top-[24px] left-0 h-[2px] bg-blue-500 -translate-y-1/2 transition-all duration-1000 ease-in-out shadow-[0_0_10px_rgba(59,130,246,0.3)]"
+          style={{ width: `${progressWidth}%` }}
+        />
 
-      {/* Custom Pulse Animation */}
-      <style>
-        {`
-        @keyframes stepPulse {
-          0% { transform: scale(1); }
-          50% { transform: scale(1.1); }
-          100% { transform: scale(1); }
-        }
-        `}
-      </style>
-
-      {/* Background line */}
-      <div className="absolute top-6 left-0 w-full h-[3px] bg-gray-200"></div>
-
-      {/* Progress line */}
-      <div
-        className="absolute top-6 left-0 h-[3px] bg-blue-600 transition-all duration-500 ease-in-out"
-        style={{ width: `${progressWidth}%` }}
-      />
-
-      <div className="flex justify-between relative z-10">
-
+        {/* STEPS */}
         {steps.map((item) => {
-
-          const active = step >= item.id;
-          const current = step === item.id;
+          const isCompleted = step > item.id;
+          const isActive = step === item.id;
 
           return (
-
-            <div key={item.id} className="flex flex-col items-center w-full">
-
-              {/* Circle */}
+            <div key={item.id} className="relative z-10 flex flex-col items-center">
+              
+              {/* Icon Container */}
               <div
                 className={`
-                w-12 h-12 flex items-center justify-center rounded-full
-                border-2 transition-all duration-300 ease-in-out
-                ${active
-                  ? "bg-blue-600 text-white border-blue-600 shadow-lg"
-                  : "bg-white text-gray-400 border-gray-300"}
-                ${current ? "animate-[stepPulse_1s_ease-in-out_infinite]" : ""}
+                  w-12 h-12 flex items-center justify-center rounded-2xl
+                  transition-all duration-500 border-2 relative
+                  ${isCompleted 
+                    ? "bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-100" 
+                    : isActive 
+                    ? "bg-white border-emerald-500 text-emerald-600 scale-125 shadow-[0_10px_20px_-5px_rgba(16,185,129,0.4)]" 
+                    : "bg-white border-slate-200 text-slate-400"}
                 `}
               >
-
-                {step > item.id ? (
-                  <FaCheck className="text-sm" />
-                ) : (
-                  item.icon
+                {/* Green Pulse: Only for the Active Step */}
+                {isActive && (
+                  <span className="absolute inset-0 rounded-2xl bg-emerald-400 animate-ping opacity-25"></span>
                 )}
 
+                <div className="text-xl">
+                  {isCompleted ? <FaCheck className="text-sm" /> : item.icon}
+                </div>
               </div>
 
-              {/* Label */}
-              <p
-                className={`
-                text-sm mt-3 transition-all duration-300
-                ${active
-                  ? "text-blue-600 font-medium"
-                  : "text-gray-400"}
-                `}
-              >
-                {item.label}
-              </p>
+              {/* Step Labels */}
+              <div className="absolute top-16 flex flex-col items-center w-32">
+                <span className={`
+                  text-[9px] uppercase tracking-[0.2em] font-black mb-1
+                  ${isActive ? "text-emerald-600" : isCompleted ? "text-blue-600" : "text-slate-400"}
+                `}>
+                  Step 0{item.id}
+                </span>
+                <span className={`
+                  text-sm font-bold whitespace-nowrap transition-colors duration-300
+                  ${isActive ? "text-slate-900" : isCompleted ? "text-slate-700" : "text-slate-400"}
+                `}>
+                  {item.label}
+                </span>
+              </div>
 
             </div>
-
           );
-
         })}
-
       </div>
-
     </div>
-
   );
 };
 
 export default Stepper;
-

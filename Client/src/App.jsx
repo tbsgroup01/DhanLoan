@@ -6,6 +6,11 @@ import ApplyLoan from "./pages/ApplyLoan";
 import CheckStatus from "./pages/CheckStatus";
 import PaymentPage from "./pages/PaymentPage";
 import StatusPage from "./pages/StatusPage";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import CreatePassword from "./pages/CreatePassword";
+import LoginPassword from "./pages/LoginPassword";
+import Dashboard from "./pages/Dashboard";
 
 import Navbar from "./components/Navbar";
 import { Toaster } from "react-hot-toast";
@@ -13,15 +18,12 @@ import { getSiteSettings } from "./services/siteService";
 import { loadTrackingTags } from "./utils/loadTags";
 
 function App() {
-
   const [settings, setSettings] = useState(null);
 
   useEffect(() => {
-
     getSiteSettings().then((data) => {
       setSettings(data);
     });
-
   }, []);
 
   useEffect(() => {
@@ -31,45 +33,37 @@ function App() {
   if (!settings) return null;
 
   return (
-
     <BrowserRouter>
-
       {/* ===== SEO SETTINGS ===== */}
 
       <Helmet>
-
         <title>{settings.site_title}</title>
 
-        <meta
-          name="description"
-          content={settings.meta_description}
-        />
+        <meta name="description" content={settings.meta_description} />
 
-        <meta
-          name="keywords"
-          content={settings.meta_keywords}
-        />
+        <meta name="keywords" content={settings.meta_keywords} />
 
         {settings.favicon && (
-          <link
-            rel="icon"
-            href={`http://localhost:3000${settings.favicon}`}
-          />
+          <link rel="icon" href={`http://localhost:3000${settings.favicon}`} />
         )}
-
       </Helmet>
 
       <Toaster position="top-right" />
 
-      <Navbar settings={settings} />
+      <Navbar />
 
       <Routes>
         <Route path="/" element={<ApplyLoan />} />
         <Route path="/status" element={<StatusPage />} />
         <Route path="/check-status" element={<CheckStatus />} />
         <Route path="/payment" element={<PaymentPage />} />
-      </Routes>
 
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/create-password" element={<CreatePassword />} />
+        <Route path="/login-password" element={<LoginPassword />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
     </BrowserRouter>
   );
 }

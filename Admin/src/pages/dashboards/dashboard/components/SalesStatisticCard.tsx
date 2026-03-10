@@ -79,11 +79,7 @@ const SalesStatisticCard = () => {
 
         <div className="apexcharts-tooltip-style-1 mt-7">
 
-          <SalesStaticChart
-            chartHeight={254}
-            data ={data}
-          />
-
+          
         </div>
 
       </CardContent>

@@ -73,7 +73,13 @@ const ForgotPassword = () => {
               <Controller
                 name="email"
                 control={form.control}
-                render={({ field, fieldState }) => (
+                render={({
+                  field,
+                  fieldState,
+                }: {
+                  field: any;
+                  fieldState: any;
+                }) => (
                   <Field
                     data-invalid={fieldState.invalid}
                     className={cn("gap-1")}
