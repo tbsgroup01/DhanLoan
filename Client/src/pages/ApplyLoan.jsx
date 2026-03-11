@@ -42,7 +42,7 @@ export default function ApplyLoan() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#fdfeff] px-4 py-8">
+    <div id="apply-loan" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#fdfeff] px-4 py-8">
       {/* Animated Background Gradients */}
       <div className="absolute inset-0 z-0">
         <motion.div 

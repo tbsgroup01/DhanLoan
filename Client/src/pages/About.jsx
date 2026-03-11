@@ -1,10 +1,12 @@
 import React from 'react'
-import LoanHero from '../components/LoanHero'
+import AboutHero from '../components/AboutHero'
+import WorkProcess from '../components/WorkProcess'
 
 const About = () => {
   return (
    <>
-   <LoanHero    />
+   <AboutHero    />
+   <WorkProcess />
    </>
   )
 }

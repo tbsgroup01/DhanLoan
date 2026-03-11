@@ -61,7 +61,7 @@ export default function Dashboard() {
               <FaShieldAlt className="text-white text-lg" />
             </div>
             <h1 className="text-lg font-black tracking-tighter text-white uppercase italic">
-              Fin<span className="text-purple-500">Portal</span>
+              Company<span className="text-purple-500">Name</span>
             </h1>
           </div>
           <button

@@ -22,7 +22,6 @@ export default function Footer() {
     { name: 'HOME', href: '/' },
     { name: 'ABOUT', href: '/about' },
     { name: 'SERVICES', href: '/services' },
-    { name: 'FAQ', href: '/faq' },
     { name: 'BLOGS', href: '/blogs' },
     { name: 'CONTACT', href: '/contact' },
   ];
@@ -127,11 +126,9 @@ export default function Footer() {
         {/* Bottom Credits */}
         <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-gray-500 text-xs font-bold tracking-wide">
-            © {new Date().getFullYear()} KISSHTMIN. ALL RIGHTS RESERVED.
+            © {new Date().getFullYear()} COMPANY. ALL RIGHTS RESERVED.
           </p>
-          <p className="text-gray-500 text-xs font-bold">
-            CRAFTED BY <span className="text-blue-500 italic tracking-widest hover:text-blue-400 transition-colors cursor-pointer">INDIAN WIZARD</span>
-          </p>
+          
           <div className="flex gap-6">
             {['Privacy', 'Terms', 'Cookies'].map((item) => (
               <a key={item} href="#" className="text-xs font-black text-gray-600 hover:text-white transition-colors uppercase tracking-widest">

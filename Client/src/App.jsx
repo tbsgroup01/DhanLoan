@@ -18,6 +18,8 @@ import Footer from "./components/Footer";
 import About from "./pages/About";
 
 import ProtectedRoute from "./routes/ProtectedRoute";
+import ServicesPage from "./pages/ServicesPage";
+import ContactPage from "./pages/ContactPage";
 function App() {
   const [settings, setSettings] = useState(null);
 
@@ -58,6 +60,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="/status" element={<StatusPage />} />
             <Route path="/check-status" element={<CheckStatus />} />
             <Route path="/payment" element={<PaymentPage />} />
@@ -77,7 +81,7 @@ function App() {
         <Footer settings={settings} />
       </div>
 
-      <Footer settings={settings} />
+      
     </BrowserRouter>
   );
 }
