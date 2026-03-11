@@ -2,11 +2,20 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { loginUser, registerUser } from "../services/loanService";
-import { FaMobileAlt, FaLock, FaFingerprint, FaArrowRight } from "react-icons/fa";
+import {
+  FaMobileAlt,
+  FaLock,
+  FaFingerprint,
+  FaArrowRight,
+} from "react-icons/fa";
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({ loanId: "", mobile: "", password: "" });
+  const [formData, setFormData] = useState({
+    loanId: "",
+    mobile: "",
+    password: "",
+  });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -15,12 +24,25 @@ export default function AuthPage() {
     setError("");
     setLoading(true);
     try {
-      const res = isLogin 
-        ? await loginUser({ mobile: formData.mobile, password: formData.password })
-        : await registerUser({ loan_id: formData.loanId, mobile: formData.mobile, password: formData.password });
+      const res = isLogin
+        ? await loginUser({
+            mobile: formData.mobile,
+            password: formData.password,
+          })
+        : await registerUser({
+            loan_id: formData.loanId,
+            mobile: formData.mobile,
+            password: formData.password,
+          });
 
       if (res.token) {
         localStorage.setItem("token", res.token);
+
+        // save user name
+        if (res.name) {
+          localStorage.setItem("userName", res.name);
+        }
+
         navigate("/dashboard");
       } else {
         setError(res.message || "Authentication failed");
@@ -34,32 +56,36 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0d1117] p-4 relative overflow-hidden">
-      
       {/* --- BACKGROUND NEON BLOBS (Consistent with Dashboard) --- */}
       <div className="absolute top-[-10%] right-[-10%] w-[400px] h-[400px] rounded-full bg-purple-600/20 blur-[100px] -z-10" />
       <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] rounded-full bg-blue-600/20 blur-[100px] -z-10" />
 
       {/* --- GLASSMORPHISM LOGIN CARD --- */}
       <div className="relative w-full max-w-[440px] overflow-hidden rounded-[40px] border border-white/10 bg-white/5 shadow-2xl backdrop-blur-2xl">
-        
         {/* Subtle Pink Inner Glow (Matching the Master Card) */}
         <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-pink-500/10 blur-3xl -z-10" />
 
         {/* Top Toggle Switch */}
         <div className="p-1.5 m-8 bg-black/20 rounded-2xl flex relative border border-white/5">
-          <motion.div 
+          <motion.div
             animate={{ x: isLogin ? 0 : "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="absolute top-1.5 left-1.5 w-[calc(50%-12px)] h-[calc(100%-12px)] bg-white/10 backdrop-blur-md rounded-xl border border-white/10 shadow-xl"
           />
-          <button 
-            onClick={() => { setIsLogin(true); setError(""); }}
+          <button
+            onClick={() => {
+              setIsLogin(true);
+              setError("");
+            }}
             className={`relative z-10 w-1/2 py-3 text-sm font-bold transition-colors ${isLogin ? "text-white" : "text-slate-500"}`}
           >
             Login
           </button>
-          <button 
-            onClick={() => { setIsLogin(false); setError(""); }}
+          <button
+            onClick={() => {
+              setIsLogin(false);
+              setError("");
+            }}
             className={`relative z-10 w-1/2 py-3 text-sm font-bold transition-colors ${!isLogin ? "text-white" : "text-slate-500"}`}
           >
             Register
@@ -72,7 +98,9 @@ export default function AuthPage() {
               {isLogin ? "Access Portal" : "Client Enrollment"}
             </h2>
             <p className="text-slate-400 text-sm mt-2 font-medium">
-              {isLogin ? "Secure login for loan management" : "Initialize your premium credit account"}
+              {isLogin
+                ? "Secure login for loan management"
+                : "Initialize your premium credit account"}
             </p>
           </div>
 
@@ -90,7 +118,9 @@ export default function AuthPage() {
                     type="text"
                     placeholder="Loan ID (e.g. 8050 2020...)"
                     value={formData.loanId}
-                    onChange={(e) => setFormData({...formData, loanId: e.target.value})}
+                    onChange={(e) =>
+                      setFormData({ ...formData, loanId: e.target.value })
+                    }
                     className="w-full bg-white/5 border border-white/10 p-4 pl-12 rounded-2xl outline-none focus:bg-white/10 focus:border-purple-500/50 transition-all text-sm text-white placeholder:text-slate-600"
                   />
                 </motion.div>
@@ -103,7 +133,9 @@ export default function AuthPage() {
                 type="text"
                 placeholder="Mobile Number"
                 value={formData.mobile}
-                onChange={(e) => setFormData({...formData, mobile: e.target.value})}
+                onChange={(e) =>
+                  setFormData({ ...formData, mobile: e.target.value })
+                }
                 className="w-full bg-white/5 border border-white/10 p-4 pl-12 rounded-2xl outline-none focus:bg-white/10 focus:border-purple-500/50 transition-all text-sm text-white placeholder:text-slate-600"
               />
             </div>
@@ -114,15 +146,17 @@ export default function AuthPage() {
                 type="password"
                 placeholder="Secure Password"
                 value={formData.password}
-                onChange={(e) => setFormData({...formData, password: e.target.value})}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
                 className="w-full bg-white/5 border border-white/10 p-4 pl-12 rounded-2xl outline-none focus:bg-white/10 focus:border-purple-500/50 transition-all text-sm text-white placeholder:text-slate-600"
               />
             </div>
 
             {error && (
-              <motion.p 
-                initial={{ opacity: 0 }} 
-                animate={{ opacity: 1 }} 
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 className="text-red-400 text-xs font-bold text-center"
               >
                 {error}
@@ -135,8 +169,14 @@ export default function AuthPage() {
               className="w-full group relative bg-white text-black p-4 rounded-2xl font-bold text-xs tracking-[0.2em] overflow-hidden transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50 mt-4 shadow-2xl"
             >
               <div className="relative z-10 flex items-center justify-center gap-2">
-                {loading ? "AUTHENTICATING..." : isLogin ? "SECURE LOGIN" : "CREATE ACCOUNT"}
-                {!loading && <FaArrowRight className="text-[10px] group-hover:translate-x-1 transition-transform" />}
+                {loading
+                  ? "AUTHENTICATING..."
+                  : isLogin
+                    ? "SECURE LOGIN"
+                    : "CREATE ACCOUNT"}
+                {!loading && (
+                  <FaArrowRight className="text-[10px] group-hover:translate-x-1 transition-transform" />
+                )}
               </div>
               {/* Animated Gradient Background on Hover */}
               <div className="absolute inset-0 bg-gradient-to-r from-purple-200 to-white opacity-0 group-hover:opacity-100 transition-opacity" />

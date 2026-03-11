@@ -2,12 +2,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 
-import ApplyLoan from "./pages/ApplyLoan";
 import CheckStatus from "./pages/CheckStatus";
 import PaymentPage from "./pages/PaymentPage";
 import StatusPage from "./pages/StatusPage";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
 import LoginPassword from "./pages/LoginPassword";
 import Dashboard from "./pages/Dashboard";
 
@@ -16,7 +13,11 @@ import { Toaster } from "react-hot-toast";
 import { getSiteSettings } from "./services/siteService";
 import { loadTrackingTags } from "./utils/loadTags";
 import AuthPage from "./pages/AuthPage";
+import Home from "./pages/Home";
+import Footer from "./components/Footer";
+import About from "./pages/About";
 
+import ProtectedRoute from "./routes/ProtectedRoute";
 function App() {
   const [settings, setSettings] = useState(null);
 
@@ -50,19 +51,33 @@ function App() {
 
       <Toaster position="top-right" />
 
-      <Navbar />
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
 
-      <Routes>
-        <Route path="/" element={<ApplyLoan />} />
-        <Route path="/status" element={<StatusPage />} />
-        <Route path="/check-status" element={<CheckStatus />} />
-        <Route path="/payment" element={<PaymentPage />} />
-        <Route path="/auth" element={<AuthPage />} />
-        {/* <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} /> */}
-        <Route path="/login-password" element={<LoginPassword />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
+        <main className="flex-1 pt-20">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/status" element={<StatusPage />} />
+            <Route path="/check-status" element={<CheckStatus />} />
+            <Route path="/payment" element={<PaymentPage />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/login-password" element={<LoginPassword />} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </main>
+
+        <Footer settings={settings} />
+      </div>
+
+      <Footer settings={settings} />
     </BrowserRouter>
   );
 }

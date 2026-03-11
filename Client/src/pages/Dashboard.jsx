@@ -24,12 +24,18 @@ export default function Dashboard() {
       try {
         const res = await getUserDashboard();
         setData(res);
+
+        // save name for navbar
+        if (res?.name) {
+          localStorage.setItem("userName", res.name);
+        }
       } catch (err) {
         console.error("Fetch Error:", err);
       } finally {
         setLoading(false);
       }
     };
+
     load();
   }, []);
 
