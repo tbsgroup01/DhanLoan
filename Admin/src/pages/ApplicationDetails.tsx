@@ -38,7 +38,7 @@ export default function ApplicationDetails() {
 
   const fetchLoan = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/admin/loan/${id}`);
+      const res = await fetch(`http://loanapi.towsindia.com/api/admin/loan/${id}`);
       const data = await res.json();
       setLoan(data);
     } catch (error) {
@@ -53,13 +53,13 @@ export default function ApplicationDetails() {
   }, []);
 
   const approveLoan = async () => {
-    await fetch(`http://localhost:3000/api/admin/loan/${id}/approve`, { method: "PUT" });
+    await fetch(`http://loanapi.towsindia.com/api/admin/loan/${id}/approve`, { method: "PUT" });
     fetchLoan();
   };
 
   const rejectLoan = async () => {
     if (!reason) return;
-    await fetch(`http://localhost:3000/api/admin/loan/${id}/reject`, {
+    await fetch(`http://loanapi.towsindia.com/api/admin/loan/${id}/reject`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ reason }),
@@ -111,22 +111,7 @@ export default function ApplicationDetails() {
           </div>
         </div>
 
-        {loan.status === "pending" && (
-          <div className="flex gap-3">
-            <button
-              onClick={() => setRejectModal(true)}
-              className="flex items-center gap-2 bg-white border border-rose-200 text-rose-600 hover:bg-rose-50 px-5 py-2.5 rounded-lg font-semibold transition-all shadow-sm"
-            >
-              <FaTimes /> Reject Application
-            </button>
-            <button
-              onClick={approveLoan}
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-semibold transition-all shadow-md"
-            >
-              <FaCheck /> Approve Loan
-            </button>
-          </div>
-        )}
+        
       </div>
 
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">

@@ -20,6 +20,7 @@ import About from "./pages/About";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import ServicesPage from "./pages/ServicesPage";
 import ContactPage from "./pages/ContactPage";
+import ApplyLoan from "./pages/ApplyLoan";
 function App() {
   const [settings, setSettings] = useState(null);
 
@@ -47,7 +48,7 @@ function App() {
         <meta name="keywords" content={settings.meta_keywords} />
 
         {settings.favicon && (
-          <link rel="icon" href={`http://localhost:3000${settings.favicon}`} />
+          <link rel="icon" href={`http://loanapi.towsindia.com${settings.favicon}`} />
         )}
       </Helmet>
 
@@ -59,6 +60,7 @@ function App() {
         <main className="flex-1 pt-20">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/apply-loan" element={<ApplyLoan />} />
             <Route path="/about" element={<About />} />
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/contact" element={<ContactPage />} />

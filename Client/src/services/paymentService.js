@@ -1,4 +1,4 @@
-const API = "http://localhost:3000/api/payment-config";
+const API = "http://loanapi.towsindia.com/api/payment-config";
 
 export const getPaymentSettings = async () => {
   try {

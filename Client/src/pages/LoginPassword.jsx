@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginLoanUser } from "../services/loanService";
+import { loginUser } from "../services/loanService";
 
 export default function LoginPassword() {
 
@@ -12,7 +12,7 @@ export default function LoginPassword() {
 
   const handleLogin = async () => {
 
-    const res = await loginLoanUser({
+    const res = await loginUser({
       loan_id: loanId,
       password
     });

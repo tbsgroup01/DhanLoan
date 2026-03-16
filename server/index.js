@@ -4,7 +4,7 @@ const app = require("./src/app");
 const sequelize = require("./src/config/mysql");
 
 const PORT = process.env.PORT;
-const HOST = "192.168.29.185";
+// const HOST = "192.168.29.185";
 
 const startServer = async () => {
   try {
@@ -17,8 +17,8 @@ const startServer = async () => {
 
     console.log("ADMIN_URL:", process.env.ADMIN_URL);
 
-    app.listen(PORT, HOST, () => {
-      console.log(`🚀 Server running on http://${HOST}:${PORT}`);
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
     });
 
   } catch (error) {

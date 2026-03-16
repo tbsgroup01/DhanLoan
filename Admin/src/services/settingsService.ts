@@ -1,4 +1,4 @@
-const API = "http://localhost:3000/api/settings";
+const API = "http://loanapi.towsindia.com/api/settings";
 
 export const getSettings = async () => {
   const res = await fetch(API);

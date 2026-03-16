@@ -109,9 +109,7 @@ export default function Step5Submit({ formData }) {
             <div className="p-8 text-center space-y-6">
               <div className="space-y-2">
                 <p className="text-slate-500 text-sm font-medium">To proceed with your loan verification, a one-time charge is applicable:</p>
-                <div className="text-5xl font-black text-slate-900 tracking-tighter">
-                  ₹{processingFee}
-                </div>
+                
               </div>
 
               <div className="bg-slate-50 p-4 rounded-2xl flex items-center justify-center gap-2">

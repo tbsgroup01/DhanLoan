@@ -8,15 +8,23 @@ const JWT_SECRET = process.env.JWT_SECRET || "loan_super_secret_key";
 
 /* ===============================
    STEP 1 - START APPLICATION
+   (Homepage form)
 ================================ */
 exports.startApplication = async (req, res) => {
   try {
 
-    const { aadhar, pan } = req.body;
+    const { name, mobile, email } = req.body;
+
+    if (!name || !mobile || !email) {
+      return res.status(400).json({
+        message: "Name, mobile and email are required"
+      });
+    }
 
     const application = await LoanApplication.create({
-      aadhar,
-      pan,
+      name,
+      mobile,
+      email,
       step_completed: 1
     });
 
@@ -26,8 +34,10 @@ exports.startApplication = async (req, res) => {
 
   } catch (error) {
 
+    console.error("START APPLICATION ERROR:", error);
+
     res.status(500).json({
-      error: error.message
+      message: "Server error"
     });
 
   }
@@ -35,7 +45,7 @@ exports.startApplication = async (req, res) => {
 
 
 /* ===============================
-   STEP 2 - PERSONAL DETAILS
+   STEP 2 - IDENTITY DETAILS
 ================================ */
 exports.step2 = async (req, res) => {
 
@@ -43,30 +53,43 @@ exports.step2 = async (req, res) => {
 
     const {
       applicationId,
-      name,
-      mobile,
-      email,
+      aadhar,
+      pan,
       occupation,
       address,
       pincode
     } = req.body;
 
-    await LoanApplication.update(
-      {
-        name,
-        mobile,
-        email,
-        occupation,
-        address,
-        pincode,
-        step_completed: 2
-      },
-      { where: { id: applicationId } }
-    );
+    if (!applicationId) {
+      return res.status(400).json({
+        message: "Application ID required"
+      });
+    }
 
-    res.json({ message: "Step 2 saved" });
+    const application = await LoanApplication.findByPk(applicationId);
+
+    if (!application) {
+      return res.status(404).json({
+        message: "Application not found"
+      });
+    }
+
+    await application.update({
+      aadhar,
+      pan,
+      occupation,
+      address,
+      pincode,
+      step_completed: 2
+    });
+
+    res.json({
+      message: "Step 2 saved"
+    });
 
   } catch (error) {
+
+    console.error("STEP2 ERROR:", error);
 
     res.status(500).json({
       message: "Server error"
@@ -93,21 +116,30 @@ exports.step3 = async (req, res) => {
       total
     } = req.body;
 
-    await LoanApplication.update(
-      {
-        amount,
-        tenure,
-        loanType,
-        emi,
-        total,
-        step_completed: 3
-      },
-      { where: { id: applicationId } }
-    );
+    const application = await LoanApplication.findByPk(applicationId);
 
-    res.json({ message: "Step 3 saved" });
+    if (!application) {
+      return res.status(404).json({
+        message: "Application not found"
+      });
+    }
+
+    await application.update({
+      amount,
+      tenure,
+      loanType,
+      emi,
+      total,
+      step_completed: 3
+    });
+
+    res.json({
+      message: "Step 3 saved"
+    });
 
   } catch (error) {
+
+    console.error("STEP3 ERROR:", error);
 
     res.status(500).json({
       message: "Server error"
@@ -133,20 +165,29 @@ exports.step4 = async (req, res) => {
       bankName
     } = req.body;
 
-    await LoanApplication.update(
-      {
-        accountHolder,
-        accountNumber,
-        ifsc,
-        bankName,
-        step_completed: 4
-      },
-      { where: { id: applicationId } }
-    );
+    const application = await LoanApplication.findByPk(applicationId);
 
-    res.json({ message: "Step 4 saved" });
+    if (!application) {
+      return res.status(404).json({
+        message: "Application not found"
+      });
+    }
+
+    await application.update({
+      accountHolder,
+      accountNumber,
+      ifsc,
+      bankName,
+      step_completed: 4
+    });
+
+    res.json({
+      message: "Step 4 saved"
+    });
 
   } catch (error) {
+
+    console.error("STEP4 ERROR:", error);
 
     res.status(500).json({
       message: "Server error"
@@ -182,9 +223,13 @@ exports.paymentSuccess = async (req, res) => {
       step_completed: 5
     });
 
-    res.json({ loanId });
+    res.json({
+      loanId
+    });
 
   } catch (error) {
+
+    console.error("PAYMENT ERROR:", error);
 
     res.status(500).json({
       message: "Server error"
@@ -193,7 +238,6 @@ exports.paymentSuccess = async (req, res) => {
   }
 
 };
-
 
 /* ===============================
    CHECK LOAN STATUS
@@ -519,5 +563,93 @@ exports.loginLoanUser = async (req, res) => {
       message: "Server error"
     });
 
+  }
+};
+
+
+
+// At the top of your controller file
+const otpStore = new Map(); // Temporary storage for OTPs
+
+/* ===============================
+   OTP LOGIN - STEP 1: REQUEST OTP
+================================ */
+exports.requestLoginOtp = async (req, res) => {
+  try {
+    const { loan_id, mobile } = req.body;
+
+    const loan = await LoanApplication.findOne({
+      where: { loan_id, mobile }
+    });
+
+    if (!loan) {
+      return res.status(404).json({
+        success: false,
+        message: "No application found with these details."
+      });
+    }
+
+    // 2. SET DUMMY OTP (Hardcoded for all users)
+    const otp = "123456"; 
+
+    // 3. Store OTP with 5-minute expiry
+    otpStore.set(loan_id, {
+      otp,
+      expiresAt: Date.now() + 300000 // 5 minutes
+    });
+
+    // 4. Log to console for debugging
+    console.log(`[AUTH] Dummy OTP triggered for Loan ID ${loan_id}: ${otp}`);
+
+    res.json({
+      success: true,
+      message: "OTP sent successfully (Use 123456 for testing)."
+    });
+
+  } catch (error) {
+    console.error("REQUEST OTP ERROR:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+/* ===============================
+   OTP LOGIN - STEP 2: VERIFY OTP
+================================ */
+exports.verifyLoginOtp = async (req, res) => {
+  try {
+    const { loan_id, otp } = req.body;
+
+    const storedData = otpStore.get(loan_id);
+
+    // 1. Validate OTP (Checks against the dummy "123456" stored in Step 1)
+    if (!storedData || storedData.otp !== otp || Date.now() > storedData.expiresAt) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid or expired OTP. (Try 123456)"
+      });
+    }
+
+    // 2. Clear OTP after successful use
+    otpStore.delete(loan_id);
+
+    const loan = await LoanApplication.findOne({ where: { loan_id } });
+
+    // 4. Generate JWT
+    const token = jwt.sign(
+      { loan_id: loan.loan_id },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.json({
+      success: true,
+      message: "Login successful",
+      token,
+      name: loan.name
+    });
+
+  } catch (error) {
+    console.error("VERIFY OTP ERROR:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };

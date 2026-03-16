@@ -4,10 +4,9 @@ import { FaUser, FaIdCard, FaMoneyBillWave, FaUniversity, FaCheck } from "react-
 const Stepper = ({ step }) => {
   const steps = [
     { id: 1, icon: <FaIdCard />, label: "Identity" },
-    { id: 2, icon: <FaUser />, label: "Personal" },
-    { id: 3, icon: <FaMoneyBillWave />, label: "Loan" },
-    { id: 4, icon: <FaUniversity />, label: "Bank" },
-    { id: 5, icon: <FaCheck />, label: "Submit" }
+    { id: 2, icon: <FaMoneyBillWave />, label: "Loan" },
+    { id: 3, icon: <FaUniversity />, label: "Bank" },
+    { id: 4, icon: <FaCheck />, label: "Submit" }
   ];
 
   const progressWidth = ((step - 1) / (steps.length - 1)) * 100;

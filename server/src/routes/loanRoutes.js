@@ -26,4 +26,12 @@ router.post("/login-user", loanController.loginLoanUser);
 
 router.get("/user-dashboard", authMiddleware, loanController.getUserDashboard);
 
+
+router.post("/request-login-otp", loanController.requestLoginOtp);
+router.post("/verify-login-otp", loanController.verifyLoginOtp);
+
+// Keep the status and dashboard routes
+router.get("/status/:loanId", loanController.checkStatus);
+router.get("/user-dashboard", authMiddleware, loanController.getUserDashboard);
+
 module.exports = router;

@@ -8,7 +8,6 @@ import {
   Linkedin, 
   Mail, 
   Phone, 
-  MapPin, 
   ArrowRight,
   ShieldCheck
 } from 'lucide-react';
@@ -17,7 +16,6 @@ import { useSiteSettings } from "../context/SiteContext";
 export default function Footer() {
   const settings = useSiteSettings();
   
-  // Same links as your Navbar for consistency
   const navLinks = [
     { name: 'HOME', href: '/' },
     { name: 'ABOUT', href: '/about' },
@@ -35,31 +33,24 @@ export default function Footer() {
       <div className="absolute bottom-0 right-0 w-80 h-80 bg-indigo-600/10 rounded-full blur-[100px] pointer-events-none"></div>
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-20">
           
           {/* Brand Column */}
           <div className="space-y-6">
             <Link to="/">
               <img 
-                src={`http://localhost:3000${settings.logo}`} 
-                alt="Kisshtmin" 
+                src={`http://loanapi.towsindia.com${settings.logo}`} 
+                alt="Logo" 
                 className="h-14 w-auto object-contain brightness-110"
               />
             </Link>
-            <p className="text-gray-400 font-medium leading-relaxed">
+            <p className="text-gray-400 font-medium leading-relaxed max-w-sm">
               Your trusted partner for instant financial solutions. We simplify lending with technology that puts you first.
             </p>
-            <div className="flex gap-3">
-              {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-600 hover:border-blue-500 transition-all group">
-                  <Icon size={18} className="text-gray-400 group-hover:text-white" />
-                </a>
-              ))}
-            </div>
           </div>
 
-          {/* Quick Links Column (Using your Nav Array) */}
-          <div className="space-y-6">
+          {/* Quick Links Column */}
+          <div className="space-y-6 md:pl-10">
             <h4 className="text-sm font-black tracking-[0.2em] text-blue-500 uppercase">Quick Navigation</h4>
             <ul className="grid grid-cols-1 gap-4">
               {navLinks.map((link) => (
@@ -76,51 +67,46 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact Details */}
-          <div className="space-y-6">
-            <h4 className="text-sm font-black tracking-[0.2em] text-blue-500 uppercase">Get In Touch</h4>
-            <div className="space-y-4">
-              <div className="flex items-start gap-4 group">
-                <div className="p-3 rounded-xl bg-white/5 border border-white/10 group-hover:bg-blue-600/20 transition-colors">
-                  <Phone size={18} className="text-blue-500" />
+          {/* Contact & Socials Column (Icons on Right Side) */}
+          <div className="space-y-8 lg:text-right flex flex-col lg:items-end">
+            <div className="space-y-6 w-full">
+              <h4 className="text-sm font-black tracking-[0.2em] text-blue-500 uppercase">Get In Touch</h4>
+              <div className="space-y-4">
+                <div className="flex lg:flex-row-reverse items-start gap-4 group">
+                  <div className="p-3 rounded-xl bg-white/5 border border-white/10 group-hover:bg-blue-600/20 transition-colors">
+                    <Phone size={18} className="text-blue-500" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Call Us</p>
+                    <p className="text-sm font-bold text-gray-200">+91 1800-123-4567</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Call Us</p>
-                  <p className="text-sm font-bold text-gray-200">+91 1800-123-4567</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4 group">
-                <div className="p-3 rounded-xl bg-white/5 border border-white/10 group-hover:bg-blue-600/20 transition-colors">
-                  <Mail size={18} className="text-blue-500" />
-                </div>
-                <div>
-                  <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Email Us</p>
-                  <p className="text-sm font-bold text-gray-200">support@kisshtmin.com</p>
+                <div className="flex lg:flex-row-reverse items-start gap-4 group">
+                  <div className="p-3 rounded-xl bg-white/5 border border-white/10 group-hover:bg-blue-600/20 transition-colors">
+                    <Mail size={18} className="text-blue-500" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Email Us</p>
+                    <p className="text-sm font-bold text-gray-200">support@kisshtmin.com</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Newsletter / Trust Badge */}
-          <div className="space-y-6">
-            <h4 className="text-sm font-black tracking-[0.2em] text-blue-500 uppercase">Newsletter</h4>
-            <div className="relative group">
-              <input 
-                type="email" 
-                placeholder="Email address" 
-                className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-5 outline-none focus:border-blue-600 focus:bg-white/10 transition-all text-sm"
-              />
-              <button className="absolute right-2 top-2 bottom-2 bg-blue-600 hover:bg-blue-500 px-4 rounded-xl transition-all active:scale-95">
-                <ArrowRight size={18} />
-              </button>
-            </div>
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-600/20 to-transparent border border-blue-500/20 flex items-center gap-3">
-              <ShieldCheck className="text-blue-500" size={24} />
-              <p className="text-[10px] font-bold text-blue-100 uppercase tracking-widest leading-tight">
-                PCI-DSS Secured <br /> Payment Gateway
-              </p>
+            {/* Social Icons - Positioned Right */}
+            <div className="flex gap-3 pt-4">
+              {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
+                <a 
+                  key={i} 
+                  href="#" 
+                  className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-600 hover:border-blue-500 hover:-translate-y-1 transition-all group"
+                >
+                  <Icon size={20} className="text-gray-400 group-hover:text-white" />
+                </a>
+              ))}
             </div>
           </div>
+          
         </div>
 
         {/* Bottom Credits */}

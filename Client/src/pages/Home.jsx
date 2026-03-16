@@ -1,5 +1,4 @@
 import React from "react";
-import ApplyLoan from "./ApplyLoan";
 import HeroSection from "../components/HeroSection";
 import WorkProcess from "../components/WorkProcess";
 import FAQSection from "../components/FAQSection";
@@ -10,7 +9,7 @@ const Home = () => {
   return (
     <>
       <HeroSection />
-      <ApplyLoan />
+
       <PartnerMarquee />
       <WorkProcess />
       <TestimonialSection />
