@@ -38,7 +38,7 @@ export default function ApplicationDetails() {
 
   const fetchLoan = async () => {
     try {
-      const res = await fetch(`http://loanapi.towsindia.com/api/admin/loan/${id}`);
+      const res = await fetch(`https://loanapi.towsindia.com/api/admin/loan/${id}`);
       const data = await res.json();
       setLoan(data);
     } catch (error) {
@@ -53,13 +53,13 @@ export default function ApplicationDetails() {
   }, []);
 
   const approveLoan = async () => {
-    await fetch(`http://loanapi.towsindia.com/api/admin/loan/${id}/approve`, { method: "PUT" });
+    await fetch(`https://loanapi.towsindia.com/api/admin/loan/${id}/approve`, { method: "PUT" });
     fetchLoan();
   };
 
   const rejectLoan = async () => {
     if (!reason) return;
-    await fetch(`http://loanapi.towsindia.com/api/admin/loan/${id}/reject`, {
+    await fetch(`https://loanapi.towsindia.com/api/admin/loan/${id}/reject`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ reason }),

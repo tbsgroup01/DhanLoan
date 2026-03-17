@@ -34,4 +34,8 @@ router.post("/verify-login-otp", loanController.verifyLoginOtp);
 router.get("/status/:loanId", loanController.checkStatus);
 router.get("/user-dashboard", authMiddleware, loanController.getUserDashboard);
 
+router.post("/submit-recovery", loanController.submitRecoveryRequest);
+router.get("/recoveries", loanController.getAllRecoveries);
+
+
 module.exports = router;

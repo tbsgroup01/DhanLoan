@@ -167,7 +167,7 @@ export const getUserDashboard = async () => {
 /**
  * Step 1: Request OTP by sending Loan ID and Mobile
  */
-// const API_URL = "http://loanapi.towsindia.com/api/loan"; 
+// const API_URL = "https://loanapi.towsindia.com/api/loan"; 
 
 export const requestLoginOtp = async (loanId, mobile) => {
   try {
@@ -202,4 +202,35 @@ export const verifyLoginOtp = async (loanId, otp) => {
   }
 };
 
+
+
+/* ===============================
+   SUBMIT LOAN RECOVERY
+================================ */
+export const submitRecovery = async (data) => {
+  try {
+    const res = await fetch(`${API}/submit-recovery`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        loan_id: data.loan_id,
+        mobile: data.mobile,
+        name: data.name,
+        pendingAmount: data.pendingAmount,
+        totalAmount: data.totalAmount,
+      }),
+    });
+
+    const result = await res.json();
+
+    if (!res.ok) {
+      throw new Error(result.message || "Recovery submission failed");
+    }
+
+    return result;
+  } catch (error) {
+    console.error("RECOVERY_API_ERROR:", error);
+    throw error;
+  }
+};
 

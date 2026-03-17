@@ -2,14 +2,15 @@ import LazyWrapper from "@/components/LazyWrapper";
 import Breadcrumb from "@/layouts/Breadcrumb";
 import { lazy } from "react";
 
-const SalesStatisticCard = lazy(() => import("./components/SalesStatisticCard"));
+const SalesStatisticCard = lazy(
+  () => import("./components/SalesStatisticCard"),
+);
 const StatCard = lazy(() => import("./components/StatCard"));
 const UserOverviewCard = lazy(() => import("./components/UserOverviewCard"));
 
 const AiDashboard = () => {
   return (
     <div className="space-y-6">
-
       {/* Breadcrumb */}
       <Breadcrumb title="AI Dashboard" text="AI" />
 
@@ -22,7 +23,6 @@ const AiDashboard = () => {
 
       {/* Main Dashboard Section */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-
         {/* Sales Statistics */}
         <div className="xl:col-span-2">
           <LazyWrapper>
@@ -36,9 +36,7 @@ const AiDashboard = () => {
             <UserOverviewCard />
           </LazyWrapper>
         </div>
-
       </div>
-
     </div>
   );
 };

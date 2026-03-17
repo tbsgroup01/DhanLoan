@@ -39,7 +39,7 @@ export default function Footer() {
           <div className="space-y-6">
             <Link to="/">
               <img 
-                src={`http://loanapi.towsindia.com${settings.logo}`} 
+                src={`https://loanapi.towsindia.com${settings.logo}`} 
                 alt="Logo" 
                 className="h-14 w-auto object-contain brightness-110"
               />

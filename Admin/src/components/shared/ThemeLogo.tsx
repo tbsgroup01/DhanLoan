@@ -1,7 +1,7 @@
 import { useTheme } from "@/components/theme-provider";
 import { useSettings } from "@/context/SettingsContext";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "https://loanapi.towsindia.com";
 
 function ThemeLogo() {
 

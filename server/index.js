@@ -12,7 +12,7 @@ const startServer = async () => {
     await sequelize.authenticate();
     console.log("✅ MySQL Connected Successfully");
 
-    await sequelize.sync();
+    await sequelize.sync({alter:true});
     console.log("✅ Tables Synced");
 
     console.log("ADMIN_URL:", process.env.ADMIN_URL);

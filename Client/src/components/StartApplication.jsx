@@ -17,12 +17,28 @@ const StartApplication = () => {
   const [loading, setLoading] = useState(false);
   const DUMMY_OTP = "123456";
 
+  // Updated handleChange with 10-digit numeric validation
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === "mobile") {
+      // Remove non-numeric characters
+      const numericValue = value.replace(/\D/g, "");
+      // Cap at 10 digits
+      if (numericValue.length <= 10) {
+        setForm({ ...form, [name]: numericValue });
+      }
+    } else {
+      setForm({ ...form, [name]: value });
+    }
   };
 
   const handleInitialSubmit = async (e) => {
     e.preventDefault();
+    if (form.mobile.length !== 10) {
+      alert("Please enter a valid 10-digit mobile number");
+      return;
+    }
     setLoading(true);
     // Simulate API call to send OTP
     setTimeout(() => {
@@ -44,10 +60,7 @@ const StartApplication = () => {
         localStorage.setItem("mobile", form.mobile);
         localStorage.setItem("email", form.email);
 
-
         navigate("/apply-loan");
-
-        
       } catch (error) {
         console.error(error);
         alert("Something went wrong");
@@ -86,13 +99,21 @@ const StartApplication = () => {
             </div>
 
             <div className="group">
-              <label className="block text-[10px] font-bold text-white uppercase tracking-[0.2em] mb-1 ml-1">
-                Mobile Number
-              </label>
+              <div className="flex justify-between items-center mb-1 ml-1">
+                <label className="block text-[10px] font-bold text-white uppercase tracking-[0.2em]">
+                  Mobile Number
+                </label>
+                <span className={`text-[9px] font-bold ${form.mobile.length === 10 ? 'text-blue-400' : 'text-white/30'}`}>
+                  {form.mobile.length}/10
+                </span>
+              </div>
               <input
                 type="tel"
                 name="mobile"
-                className="w-full px-4 py-3 border-b-2 text-white border-white/10 bg-transparent outline-none focus:border-blue-500 transition-all"
+                inputMode="numeric"
+                className={`w-full px-4 py-3 border-b-2 text-white bg-transparent outline-none transition-all
+                  ${form.mobile.length === 10 ? 'border-blue-500' : 'border-white/10'}
+                `}
                 value={form.mobile}
                 onChange={handleChange}
                 required
@@ -115,9 +136,9 @@ const StartApplication = () => {
 
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || form.mobile.length !== 10}
               className={`w-full py-4 px-6 rounded-xl font-bold text-white shadow-lg transition-all duration-200 
-                ${loading ? "bg-slate-600" : "bg-blue-600 hover:bg-blue-700 active:scale-[0.98]"}`}
+                ${loading || form.mobile.length !== 10 ? "bg-slate-600 opacity-50 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 active:scale-[0.98]"}`}
             >
               {loading ? "Sending OTP..." : "Get Started"}
             </button>
@@ -146,6 +167,7 @@ const StartApplication = () => {
           <form onSubmit={handleVerifyOtp} className="space-y-6">
             <input
               type="text"
+              inputMode="numeric"
               maxLength="6"
               placeholder="0 0 0 0 0 0"
               className="w-full bg-white/5 border-2 border-white/10 rounded-xl py-4 text-center text-2xl font-black tracking-[0.5em] text-white focus:border-blue-500 outline-none transition-all"
@@ -156,8 +178,8 @@ const StartApplication = () => {
 
             <button
               type="submit"
-              disabled={loading}
-              className="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold shadow-lg shadow-emerald-900/20 transition-all"
+              disabled={loading || otp.length !== 6}
+              className={`w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold shadow-lg shadow-emerald-900/20 transition-all ${loading || otp.length !== 6 ? 'opacity-50' : ''}`}
             >
               {loading ? "Verifying..." : "Verify & Continue"}
             </button>

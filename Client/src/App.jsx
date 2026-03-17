@@ -48,7 +48,7 @@ function App() {
         <meta name="keywords" content={settings.meta_keywords} />
 
         {settings.favicon && (
-          <link rel="icon" href={`http://loanapi.towsindia.com${settings.favicon}`} />
+          <link rel="icon" href={`https://loanapi.towsindia.com${settings.favicon}`} />
         )}
       </Helmet>
 
@@ -68,12 +68,14 @@ function App() {
             <Route path="/check-status" element={<CheckStatus />} />
             <Route path="/payment" element={<PaymentPage />} />
             <Route path="/auth" element={<AuthPage />} />
+
             <Route path="/login-password" element={<LoginPassword />} />
             <Route
               path="/dashboard"
               element={
                 <ProtectedRoute>
                   <Dashboard />
+                  
                 </ProtectedRoute>
               }
             />

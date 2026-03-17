@@ -96,8 +96,8 @@ export default function PaymentSettings() {
 
               <nav className="space-y-3">
                 {[
-                  { id: 'api', label: 'API Keys', icon: <FaKey /> },
-                  { id: 'bank', label: 'Settlement', icon: <FaUniversity /> },
+                  { id: 'api', label: 'Rezorpay API', icon: <FaKey /> },
+                  { id: 'bank', label: 'Bank ', icon: <FaUniversity /> },
                   { id: 'fee', label: 'Fees & QR', icon: <FaMoneyBillWave /> },
                 ].map((item) => (
                   <button
@@ -168,6 +168,11 @@ export default function PaymentSettings() {
                   <div className="space-y-2">
                     <label className="text-xs font-bold uppercase tracking-widest text-slate-400 ml-1">IFSC</label>
                     <input name="ifsc" value={settings.ifsc} onChange={handleChange} className="w-full bg-slate-50 border-2 border-slate-100 focus:border-indigo-500 focus:bg-white rounded-2xl p-4 outline-none transition-all font-medium" />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-widest text-slate-400 ml-1">AccountNo</label>
+                    <input name="account_number" value={settings.account_number} onChange={handleChange} className="w-full bg-slate-50 border-2 border-slate-100 focus:border-indigo-500 focus:bg-white rounded-2xl p-4 outline-none transition-all font-medium" />
                   </div>
                 </div>
               )}

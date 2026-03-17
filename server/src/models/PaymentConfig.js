@@ -9,7 +9,7 @@ const PaymentConfig = sequelize.define("PaymentConfig", {
     defaultValue: 500
   },
 
-  razorpay_key: {
+  razorpay_key_id: {
     type: DataTypes.STRING,
   },
 

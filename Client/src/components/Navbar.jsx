@@ -74,7 +74,7 @@ export default function Navbar() {
           {/* Logo */}
           <div className="flex items-center gap-3">
             {settings.logo && (
-              <img src={`http://loanapi.towsindia.com${settings.logo}`} alt="logo" className="h-12 w-auto object-contain" />
+              <img src={`https://loanapi.towsindia.com${settings.logo}`} alt="logo" className="h-12 w-auto object-contain" />
             )}
           </div>
 

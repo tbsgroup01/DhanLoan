@@ -1,7 +1,7 @@
 import SalesStaticChart from "@/components/charts/SalesStaticChart";
 import CustomSelect from "@/components/shared/CustomSelect";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getLoanAnalytics } from "@/services/analyticsService";
 
@@ -11,16 +11,15 @@ interface AnalyticsData {
 }
 
 const SalesStatisticCard = () => {
-
   const [data, setData] = useState<AnalyticsData[]>([]);
   const [totalApplications, setTotalApplications] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-
     const fetchData = async () => {
-
+      setLoading(true);
       const result = await getLoanAnalytics();
-
+      
       setData(result);
 
       const total = result.reduce(
@@ -29,22 +28,17 @@ const SalesStatisticCard = () => {
       );
 
       setTotalApplications(total);
-
+      setLoading(false);
     };
 
     fetchData();
-
   }, []);
 
   return (
-
-    <Card className="card">
-
-      <CardContent className="px-0">
-
-        <div className="flex flex-wrap items-center justify-between">
-
-          <h6 className="mb-0 font-semibold text-lg">
+    <Card className="card shadow-sm border-slate-200">
+      <CardContent className="p-6">
+        <div className="flex flex-wrap items-center justify-between mb-6">
+          <h6 className="mb-0 font-bold text-slate-800 text-lg">
             Loan Applications Analytics
           </h6>
 
@@ -52,42 +46,38 @@ const SalesStatisticCard = () => {
             placeholder="Monthly"
             options={["Yearly", "Monthly", "Weekly", "Today"]}
           />
-
         </div>
 
-
-        <div className="flex flex-wrap items-center gap-2 mt-2">
-
-          <h6 className="mb-0">
-            {totalApplications}
+        <div className="flex flex-wrap items-center gap-3 mt-2">
+          <h6 className="mb-0 text-3xl font-black text-slate-900">
+            {loading ? "..." : totalApplications}
           </h6>
 
-          <span className="text-sm font-semibold rounded-full bg-green-100 dark:bg-green-600/25 text-green-600 dark:text-green-400 border border-green-200 dark:border-green-600/50 px-2 py-1.5 flex items-center gap-1">
-
+          <span className="text-sm font-bold rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 px-3 py-1 flex items-center gap-1">
             Active <ArrowUp width={14} height={14} />
-
           </span>
 
-          <span className="text-xs font-medium">
-
-            Total loan applications
-
+          <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+            Total Submissions
           </span>
-
         </div>
 
-
-        <div className="apexcharts-tooltip-style-1 mt-7">
-
-          
+        <div className="mt-8 min-h-[320px] flex items-center justify-center">
+          {loading ? (
+            <div className="flex flex-col items-center gap-2">
+               <Loader2 className="animate-spin text-blue-600" size={32} />
+               <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Retrieving Records...</p>
+            </div>
+          ) : (
+            <div className="w-full">
+              {/* Data Injected into Chart Component */}
+              <SalesStaticChart data={data} />
+            </div>
+          )}
         </div>
-
       </CardContent>
-
     </Card>
-
   );
-
 };
 
 export default SalesStatisticCard;

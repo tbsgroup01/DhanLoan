@@ -16,6 +16,7 @@ import SiteSettings from "@/pages/Settings/SiteSettings";
 import PaymentSettings from "@/pages/admin/PaymentSettings";
 import TagsPage from "@/pages/admin/TagsPage";
 import ApplicationDetails from "@/pages/ApplicationDetails";
+import LoanRecovery from "@/pages/LoanRecovery";
 
 
 const AiDashboard = lazy(
@@ -75,6 +76,10 @@ export const router = createBrowserRouter([
           {
             path: "/all-applications",
             element: <AllApplications />,
+          },
+          {
+            path: "/loan-recovery",
+            element: <LoanRecovery />,
           },
           {
             path: "/application/:id",

@@ -6,6 +6,7 @@ import {
   FaTags,
 } from "react-icons/fa";
 import { CiEdit } from "react-icons/ci";
+import { ListRestart } from "lucide-react";
 export const data = {
   navMain: [
     {
@@ -13,21 +14,16 @@ export const data = {
       url: "/dashboard",
       icon: FaTachometerAlt,
     },
-    // {
-    //   title: "CRM",
-    //   url: "/crm",
-    //   icon: FaUsers,
-    // },
-    // {
-    //   title: "Finance",
-    //   url: "/finance",
-    //   icon: FaMoneyBill,
-    // },
-
     {
       title: "All Applications",
       url: "/all-applications",
       icon: FaUsers,
+    },
+    
+    {
+      title: "Loan Recovery",
+      url: "/loan-recovery",
+      icon: ListRestart ,
     },
 
     {
@@ -48,6 +44,8 @@ export const data = {
       url: "/tags",
       icon: FaTags ,
     }
+
+
 
   ],
 };

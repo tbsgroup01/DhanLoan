@@ -1,4 +1,5 @@
 const LoanApplication = require("../models/LoanApplication");
+const LoanRecovery = require("../models/LoanRecovery"); // Import the new model
 const generateLoanId = require("../services/generateLoanId");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -653,3 +654,66 @@ exports.verifyLoginOtp = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+
+
+exports.submitRecoveryRequest = async (req, res) => {
+  try {
+    const { loan_id, mobile, name, pendingAmount, totalAmount } = req.body;
+
+    // 1. Validation
+    if (!loan_id || !mobile) {
+      return res.status(400).json({ message: "Loan ID and Mobile are required" });
+    }
+
+    // 2. Check if Loan exists and mobile matches
+    const loan = await LoanApplication.findOne({
+      where: { loan_id: loan_id }
+    });
+
+    if (!loan) {
+      return res.status(404).json({ message: "Invalid Loan ID" });
+    }
+
+    if (loan.mobile !== mobile) {
+      return res.status(401).json({ 
+        message: "Mobile number does not match our records for this Loan ID" 
+      });
+    }
+
+    // 3. Store Recovery Request in DB
+    const recoveryEntry = await LoanRecovery.create({
+      loan_id,
+      name: name || loan.name, // Use provided name or fallback to original
+      mobile,
+      pending_amount: pendingAmount,
+      total_loan_amount: totalAmount,
+      status: "pending"
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Recovery request submitted successfully",
+      recoveryId: recoveryEntry.id
+    });
+
+  } catch (error) {
+    console.error("RECOVERY ERROR:", error);
+    res.status(500).json({ message: "Server error processing recovery" });
+  }
+};
+
+// GET ALL RECOVERY REQUESTS (Admin Only)
+exports.getAllRecoveries = async (req, res) => {
+  try {
+    const recoveries = await LoanRecovery.findAll({
+      order: [["createdAt", "DESC"]],
+    });
+
+    res.json(recoveries);
+  } catch (error) {
+    console.error("GET_RECOVERIES_ERROR:", error);
+    res.status(500).json({ message: "Server error fetching recoveries" });
+  }
+};
+
