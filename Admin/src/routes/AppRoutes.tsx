@@ -18,94 +18,61 @@ import TagsPage from "@/pages/admin/TagsPage";
 import ApplicationDetails from "@/pages/ApplicationDetails";
 import LoanRecovery from "@/pages/LoanRecovery";
 
-
-const AiDashboard = lazy(
-  () => import("@/pages/dashboards/dashboard/AiDashboard"),
-);
+const AiDashboard = lazy(() => import("@/pages/dashboards/dashboard/AiDashboard"));
 const Crm = lazy(() => import("@/pages/dashboards/crm/Crm"));
 const Finance = lazy(() => import("@/pages/dashboards/finance/Finance"));
 
-export const router = createBrowserRouter([
-  // Guest Routes
+export const router = createBrowserRouter(
+  [
+    // Guest Routes
+    {
+      element: <GuestRoutes />,
+      errorElement: <RouteErrorBoundary />,
+      children: [
+        { path: "/auth/login", element: <Login /> },
+        { path: "/auth/forgot-password", element: <ForgotPassword /> },
+        { path: "/auth/reset-password/:token", element: <ResetPassword /> },
+      ],
+    },
+
+    // Protected Routes
+    {
+      element: <ProtectedRoutes />,
+      children: [
+        {
+          path: "/",
+          element: <MainLayout />,
+          errorElement: <RouteErrorBoundary />,
+          children: [
+            {
+              index: true,
+              element: <Navigate to="dashboard" replace />, // ✅ FIXED
+            },
+
+            { path: "dashboard", element: <AiDashboard /> },
+            { path: "crm", element: <Crm /> },
+            { path: "finance", element: <Finance /> },
+
+            // ✅ FIXED (NO /)
+            { path: "all-applications", element: <AllApplications /> },
+            { path: "loan-recovery", element: <LoanRecovery /> },
+            { path: "application/:id", element: <ApplicationDetails /> },
+            { path: "settings", element: <SiteSettings /> },
+            { path: "payment-settings", element: <PaymentSettings /> },
+            { path: "tags", element: <TagsPage /> },
+          ],
+        },
+      ],
+    },
+
+    // 404
+    {
+      path: "*",
+      element: <NotFound />,
+      errorElement: <RouteErrorBoundary />,
+    },
+  ],
   {
-    element: <GuestRoutes />,
-    errorElement: <RouteErrorBoundary />,
-    children: [
-      {
-        path: "/auth/login",
-        element: <Login />,
-      },
-      {
-        path: "/auth/forgot-password",
-        element: <ForgotPassword />,
-      },
-      {
-        path: "/auth/reset-password/:token",
-        element: <ResetPassword />,
-      },
-    ],
-  },
-
-  // Protected Routes
-  {
-    element: <ProtectedRoutes />,
-    children: [
-      {
-        path: "/",
-        element: <MainLayout />,
-        errorElement: <RouteErrorBoundary />,
-        children: [
-          {
-            index: true,
-            element: <Navigate to="/dashboard" replace />,
-          },
-
-          {
-            path: "dashboard",
-            element: <AiDashboard />,
-          },
-          {
-            path: "crm",
-            element: <Crm />,
-          },
-          {
-            path: "finance",
-            element: <Finance />,
-          },
-
-          {
-            path: "/all-applications",
-            element: <AllApplications />,
-          },
-          {
-            path: "/loan-recovery",
-            element: <LoanRecovery />,
-          },
-          {
-            path: "/application/:id",
-            element: <ApplicationDetails />,
-          },
-          {
-            path: "/settings",
-            element: <SiteSettings />,
-          },
-          {
-            path: "/payment-settings",
-            element: <PaymentSettings />,
-          },
-          {
-            path: "/tags",
-            element: <TagsPage />,
-          },
-        ],
-      },
-    ],
-  },
-
-  // 404
-  {
-    path: "*",
-    element: <NotFound />,
-    errorElement: <RouteErrorBoundary />,
-  },
-]);
+    basename: "/DhanLoanAdmin", // 🔥 MUST ADD THIS
+  }
+);
